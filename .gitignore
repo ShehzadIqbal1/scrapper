@@ -2,3 +2,6 @@ node_modules
 .next
 .env
 .env.local
+
+# Chrome extension (local development only)
+maps-lead-scraper-extension/

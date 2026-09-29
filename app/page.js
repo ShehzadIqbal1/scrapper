@@ -20,6 +20,8 @@ export default function Dashboard() {
   const [error, setError] = useState('');
   const [selected, setSelected] = useState(null);
   const [live, setLive] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [exportMode, setExportMode] = useState('new');
 
   const filterQs = useMemo(() => {
     const p = new URLSearchParams();
@@ -35,7 +37,7 @@ export default function Dashboard() {
     try {
       const p = new URLSearchParams(filterQs);
       p.set('page', page); p.set('limit', limit); p.set('sort', sort); p.set('order', order);
-      const [r1, r2] = await Promise.all([fetch('/api/places?' + p), fetch('/api/places/stats')]);
+      const [r1, r2] = await Promise.all([fetch('/api/places?' + p), fetch('/api/places/stats?' + filterQs.toString())]);
       const j1 = await r1.json();
       if (!r1.ok || !j1.ok) throw new Error(j1.error || 'Request failed');
       setData(j1);
@@ -76,9 +78,18 @@ export default function Dashboard() {
     else alert('Delete failed');
   };
 
-  const exportUrl = '/api/places/export?' + filterQs.toString();
+  const exportUrl = '/api/places/export?' + filterQs.toString() + '&sort=' + sort + '&order=' + order + '&exportMode=' + exportMode;
   const from = data.total ? (data.page - 1) * data.limit + 1 : 0;
   const to = Math.min(data.total, data.page * data.limit);
+
+  const handleExport = () => {
+    setShowExportModal(true);
+  };
+
+  const confirmExport = () => {
+    window.location.href = exportUrl;
+    setShowExportModal(false);
+  };
 
   return (
     <div className="wrap">
@@ -92,7 +103,7 @@ export default function Dashboard() {
             <input type="checkbox" checked={live} onChange={(e) => setLive(e.target.checked)} /> Live refresh (5s)
           </label>
           <button onClick={() => load(false)}>↻ Refresh</button>
-          <a className="btn p" href={exportUrl}>⬇ Export CSV</a>
+          <button className="btn p" onClick={handleExport}>⬇ Export CSV</button>
         </div>
       </div>
 
@@ -213,6 +224,89 @@ export default function Dashboard() {
               {selected.phone && <a className="btn" href={'tel:' + selected.phone.replace(/[^\d+]/g, '')}>Call</a>}
               {selected.email && <a className="btn" href={'mailto:' + selected.email}>Email</a>}
               <button className="d btn" onClick={() => remove(selected)}>Delete</button>
+            </div>
+          </aside>
+        </>
+      )}
+
+      {showExportModal && (
+        <>
+          <div className="overlay" onClick={() => setShowExportModal(false)} />
+          <aside className="drawer" style={{ maxWidth: 400 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
+              <h2>Export Options</h2>
+              <button onClick={() => setShowExportModal(false)}>✕</button>
+            </div>
+
+            <div style={{ marginTop: 20 }}>
+              <label style={{ display: 'block', marginBottom: 8, fontWeight: 600 }}>Choose what to export:</label>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <label className="check" style={{ padding: 12, border: '1px solid #2a2f3d', borderRadius: 8, cursor: 'pointer' }}>
+                  <input
+                    type="radio"
+                    name="exportMode"
+                    value="new"
+                    checked={exportMode === 'new'}
+                    onChange={(e) => setExportMode(e.target.value)}
+                  />
+                  <div>
+                    <div style={{ fontWeight: 600 }}>New data only</div>
+                    <div style={{ fontSize: 12, color: '#8b92a5' }}>
+                      {fmt(stats?.exportStats?.new || 0)} records not previously exported
+                    </div>
+                  </div>
+                </label>
+
+                <label className="check" style={{ padding: 12, border: '1px solid #2a2f3d', borderRadius: 8, cursor: 'pointer' }}>
+                  <input
+                    type="radio"
+                    name="exportMode"
+                    value="previous"
+                    checked={exportMode === 'previous'}
+                    onChange={(e) => setExportMode(e.target.value)}
+                  />
+                  <div>
+                    <div style={{ fontWeight: 600 }}>Previously exported</div>
+                    <div style={{ fontSize: 12, color: '#8b92a5' }}>
+                      {fmt(stats?.exportStats?.previous || 0)} records already exported
+                    </div>
+                  </div>
+                </label>
+
+                <label className="check" style={{ padding: 12, border: '1px solid #2a2f3d', borderRadius: 8, cursor: 'pointer' }}>
+                  <input
+                    type="radio"
+                    name="exportMode"
+                    value="all"
+                    checked={exportMode === 'all'}
+                    onChange={(e) => setExportMode(e.target.value)}
+                  />
+                  <div>
+                    <div style={{ fontWeight: 600 }}>All data</div>
+                    <div style={{ fontSize: 12, color: '#8b92a5' }}>
+                      {fmt(stats?.exportStats?.all || 0)} total records (respects current filters)
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              <div style={{ marginTop: 20, display: 'flex', gap: 8 }}>
+                <button className="btn p" onClick={confirmExport} style={{ flex: 1 }}>
+                  Export {fmt(
+                    exportMode === 'new' ? (stats?.exportStats?.new || 0) :
+                    exportMode === 'previous' ? (stats?.exportStats?.previous || 0) :
+                    (stats?.exportStats?.all || 0)
+                  )} records
+                </button>
+                <button onClick={() => setShowExportModal(false)}>Cancel</button>
+              </div>
+
+              {exportMode === 'new' && (
+                <div style={{ marginTop: 12, fontSize: 12, color: '#8b92a5' }}>
+                  ⚠️ These records will be marked as exported after download
+                </div>
+              )}
             </div>
           </aside>
         </>

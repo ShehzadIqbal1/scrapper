@@ -34,7 +34,8 @@ const placeSchema = new mongoose.Schema(
     searchLocation: String,
     searches: { type: [String], default: undefined },
 
-    scrapedAt: Date
+    scrapedAt: Date,
+    exportedAt: Date // Track when this record was last exported
   },
   { timestamps: true, versionKey: false }
 );
