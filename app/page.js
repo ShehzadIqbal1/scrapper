@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-const EMPTY = { q: '', category: '', city: '', search: '', hasEmail: false, hasPhone: false, hasWebsite: false, minRating: '' };
+const EMPTY = { q: '', category: '', city: '', search: '', hasEmail: false, hasPhone: false, hasWebsite: false, minRating: '', scrapedDate: '' };
 
 const host = (u) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; } };
 const fmt = (n) => (n ?? 0).toLocaleString();
@@ -11,7 +11,7 @@ export default function Dashboard() {
   const [filters, setFilters] = useState(EMPTY);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(50);
-  const [sort, setSort] = useState('createdAt');
+  const [sort, setSort] = useState('scrapedAt');
   const [order, setOrder] = useState('desc');
 
   const [data, setData] = useState({ items: [], total: 0, pages: 1 });
@@ -70,6 +70,8 @@ export default function Dashboard() {
     else { setSort(field); setOrder(field === 'name' ? 'asc' : 'desc'); }
   };
   const arrow = (f) => (sort === f ? (order === 'asc' ? ' ▲' : ' ▼') : '');
+
+  const sortable = ['createdAt', 'updatedAt', 'scrapedAt', 'name', 'rating', 'reviews'];
 
   const remove = async (p) => {
     if (!confirm(`Delete "${p.name}"?`)) return;
@@ -133,6 +135,7 @@ export default function Dashboard() {
         <div><label>Category</label><input type="text" value={filters.category} onChange={(e) => setF('category', e.target.value)} placeholder="Hospital" /></div>
         <div><label>City / address contains</label><input type="text" value={filters.city} onChange={(e) => setF('city', e.target.value)} placeholder="Los Angeles" /></div>
         <div><label>Found by search</label><input type="text" value={filters.search} onChange={(e) => setF('search', e.target.value)} placeholder="hospital | California" /></div>
+        <div><label>Scraped date</label><input type="date" value={filters.scrapedDate} onChange={(e) => setF('scrapedDate', e.target.value)} /></div>
         <div><label>Min rating</label><input type="number" step="0.1" min="0" max="5" style={{ width: 80 }} value={filters.minRating} onChange={(e) => setF('minRating', e.target.value)} /></div>
         <label className="check"><input type="checkbox" checked={filters.hasEmail} onChange={(e) => setF('hasEmail', e.target.checked)} /> Has email</label>
         <label className="check"><input type="checkbox" checked={filters.hasPhone} onChange={(e) => setF('hasPhone', e.target.checked)} /> Has phone</label>
@@ -159,6 +162,7 @@ export default function Dashboard() {
               <th className="ns">Email</th>
               <th className="ns">Website</th>
               <th className="ns">Address</th>
+              <th onClick={() => toggleSort('scrapedAt')}>Scraped{arrow('scrapedAt')}</th>
               <th onClick={() => toggleSort('createdAt')}>Added{arrow('createdAt')}</th>
             </tr>
           </thead>
@@ -171,6 +175,7 @@ export default function Dashboard() {
                 <td>{p.email || <span className="mut">—</span>}</td>
                 <td onClick={(e) => e.stopPropagation()}>{p.website ? <a href={p.website} target="_blank" rel="noreferrer">{host(p.website)}</a> : <span className="mut">—</span>}</td>
                 <td>{p.address || <span className="mut">—</span>}</td>
+                <td className="mut">{p.scrapedAt ? new Date(p.scrapedAt).toLocaleDateString() : ''}</td>
                 <td className="mut">{p.createdAt ? new Date(p.createdAt).toLocaleDateString() : ''}</td>
               </tr>
             ))}

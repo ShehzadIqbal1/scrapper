@@ -7,7 +7,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const COLS = ['name', 'category', 'rating', 'reviews', 'address', 'phone', 'website', 'email', 'emails',
-  'plusCode', 'hours', 'lat', 'lng', 'placeId', 'query', 'searchLocation', 'url', 'createdAt'];
+  'plusCode', 'hours', 'lat', 'lng', 'placeId', 'query', 'searchLocation', 'url', 'scrapedAt', 'createdAt'];
 
 const cell = (v) => {
   if (Array.isArray(v)) v = v.join('; ');
@@ -29,8 +29,8 @@ export async function GET(req) {
   const enc = new TextEncoder();
 
   // Add sort order from query params (same as list view)
-  const sortable = ['createdAt', 'updatedAt', 'name', 'rating', 'reviews'];
-  const sortField = sortable.includes(sp.get('sort')) ? sp.get('sort') : 'createdAt';
+  const sortable = ['createdAt', 'updatedAt', 'scrapedAt', 'name', 'rating', 'reviews'];
+  const sortField = sortable.includes(sp.get('sort')) ? sp.get('sort') : 'scrapedAt';
   const sortDir = sp.get('order') === 'asc' ? 1 : -1;
 
   // Export mode: new (not exported), previous (exported), or all

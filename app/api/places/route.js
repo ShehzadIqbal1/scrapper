@@ -12,8 +12,8 @@ export async function GET(req) {
     const sp = new URL(req.url).searchParams;
     const page = Math.max(1, parseInt(sp.get('page'), 10) || 1);
     const limit = Math.min(200, Math.max(1, parseInt(sp.get('limit'), 10) || 50));
-    const sortable = ['createdAt', 'updatedAt', 'name', 'rating', 'reviews'];
-    const sortField = sortable.includes(sp.get('sort')) ? sp.get('sort') : 'createdAt';
+    const sortable = ['createdAt', 'updatedAt', 'scrapedAt', 'name', 'rating', 'reviews'];
+    const sortField = sortable.includes(sp.get('sort')) ? sp.get('sort') : 'scrapedAt';
     const sortDir = sp.get('order') === 'asc' ? 1 : -1;
 
     const filter = buildFilter(sp);
