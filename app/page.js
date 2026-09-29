@@ -220,8 +220,8 @@ export default function Dashboard() {
       {/* Subtle top ambient radial lighting */}
       <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(ellipse_80%_45%_at_50%_-10%,rgba(99,102,241,0.14),rgba(0,0,0,0))] z-0" />
 
-      {/* Main Container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-5">
+      {/* Main Container - Extended width for spacious leads display */}
+      <div className="relative z-10 w-full max-w-[1760px] mx-auto px-4 sm:px-6 lg:px-8 py-5 space-y-4">
         {/* Navigation & Header */}
         <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-1 border-b border-white/[0.06]">
           <div className="flex items-center gap-3.5">
@@ -771,7 +771,7 @@ export default function Dashboard() {
                             <a
                               href={`mailto:${p.email}`}
                               onClick={(e) => e.stopPropagation()}
-                              className="text-indigo-400 hover:underline max-w-[150px] truncate"
+                              className="text-indigo-400 hover:underline max-w-[280px] xl:max-w-[380px] 2xl:max-w-none truncate"
                               title={p.email}
                             >
                               {p.email}
@@ -813,7 +813,7 @@ export default function Dashboard() {
                       </td>
 
                       {/* Address */}
-                      <td className="py-3 px-4 text-xs text-slate-300 max-w-[200px] truncate">
+                      <td className="py-3 px-4 text-xs text-slate-300 max-w-[340px] xl:max-w-[480px] 2xl:max-w-none truncate" title={p.address}>
                         {p.address || <span className="text-slate-500">—</span>}
                       </td>
 
@@ -941,7 +941,7 @@ export default function Dashboard() {
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 transition-opacity"
             onClick={() => setSelected(null)}
           />
-          <aside className="fixed top-0 right-0 bottom-0 w-full max-w-lg bg-[#0c1220] border-l border-white/[0.09] shadow-2xl z-50 overflow-y-auto flex flex-col justify-between">
+          <aside className="fixed top-0 right-0 bottom-0 w-full sm:max-w-xl bg-[#0c1220] border-l border-white/[0.09] shadow-2xl z-50 overflow-y-auto flex flex-col justify-between">
             {/* Drawer Header */}
             <div className="p-5 border-b border-white/[0.08] bg-[#0a0f1d] sticky top-0 z-10">
               <div className="flex items-start justify-between gap-3">
@@ -1085,48 +1085,59 @@ export default function Dashboard() {
             </div>
 
             {/* Drawer Bottom Actions */}
-            <div className="p-4 border-t border-white/[0.08] bg-[#0a0f1d] flex flex-wrap gap-2 sticky bottom-0">
+            <div className="p-4 border-t border-white/[0.08] bg-[#0a0f1d] flex flex-col gap-2.5 sticky bottom-0">
               {selected.url && (
                 <a
-                  className="btn-gradient text-xs py-2 flex-1 min-w-[130px]"
+                  className="btn-gradient text-xs py-2.5 w-full justify-center shadow-glow-sm font-semibold"
                   href={selected.url}
                   target="_blank"
                   rel="noreferrer"
                 >
                   <MapPin className="w-3.5 h-3.5" />
-                  <span>Google Maps</span>
+                  <span>Open in Google Maps</span>
+                  <ExternalLink className="w-3 h-3 opacity-70 ml-0.5" />
                 </a>
               )}
-              {selected.phone && (
-                <a
-                  className="btn-outline text-xs py-2 flex-1"
-                  href={'tel:' + selected.phone.replace(/[^\d+]/g, '')}
+              <div className="flex items-center gap-2 w-full">
+                {selected.phone && (
+                  <a
+                    className="btn-outline text-xs py-2 px-3 whitespace-nowrap flex-1 justify-center"
+                    href={'tel:' + selected.phone.replace(/[^\d+]/g, '')}
+                  >
+                    <Phone className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Call</span>
+                  </a>
+                )}
+                {selected.email && (
+                  <a
+                    className="btn-outline text-xs py-2 px-3 whitespace-nowrap flex-1 justify-center"
+                    href={'mailto:' + selected.email}
+                  >
+                    <Mail className="w-3.5 h-3.5 text-indigo-400" />
+                    <span>Email</span>
+                  </a>
+                )}
+                <button
+                  className={`btn-outline text-xs py-2 px-3.5 whitespace-nowrap flex-1 justify-center ${
+                    selected.status === 'done'
+                      ? 'text-amber-300 border-amber-500/30 hover:bg-amber-500/10'
+                      : 'text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/10'
+                  }`}
+                  onClick={() => toggleStatus(selected)}
                 >
-                  <Phone className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Call</span>
-                </a>
-              )}
-              {selected.email && (
-                <a className="btn-outline text-xs py-2 flex-1" href={'mailto:' + selected.email}>
-                  <Mail className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>Email</span>
-                </a>
-              )}
-              <button
-                className={`btn-outline text-xs py-2 flex-1 ${
-                  selected.status === 'done' ? 'text-amber-300 border-amber-500/30' : 'text-emerald-300 border-emerald-500/30'
-                }`}
-                onClick={() => toggleStatus(selected)}
-              >
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>{selected.status === 'done' ? 'Mark Pending' : 'Mark Done'}</span>
-              </button>
-              <button
-                className="btn-outline text-xs py-2 text-rose-400 hover:border-rose-500/40"
-                onClick={() => remove(selected)}
-              >
-                <Trash2 className="w-3.5 h-3.5" />
-              </button>
+                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                  <span className="whitespace-nowrap font-medium">
+                    {selected.status === 'done' ? 'Mark Pending' : 'Mark Done'}
+                  </span>
+                </button>
+                <button
+                  className="btn-outline text-xs p-2 text-rose-400 hover:border-rose-500/40 hover:bg-rose-500/10 shrink-0"
+                  onClick={() => remove(selected)}
+                  title="Delete lead"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </aside>
         </>
