@@ -203,7 +203,7 @@ export default function Dashboard() {
         {!loading && !data.items.length && !error && (
           <div className="empty">No places yet. Run the extension and send data to <code>/api/places/bulk</code>.</div>
         )}
-        {loading && !data.items.length && <div className="empty">Loading…</div>}
+        {loading && !data.items.length && <div className="empty" style={{ animation: 'pulse 1.5s ease-in-out infinite' }}>Loading…</div>}
       </div>
 
       <div className="pager">
@@ -269,7 +269,7 @@ export default function Dashboard() {
               <label style={{ display: 'block', marginBottom: 8, fontWeight: 600 }}>Choose what to export:</label>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <label className="check" style={{ padding: 12, border: '1px solid #2a2f3d', borderRadius: 8, cursor: 'pointer' }}>
+                <label className="check" style={{ padding: 12, border: '1px solid #2a2f3d', borderRadius: 6, cursor: 'pointer', transition: 'all 0.2s ease', borderColor: exportMode === 'new' ? 'var(--ac)' : '#2a2f3d', background: exportMode === 'new' ? 'rgba(79, 140, 255, 0.1)' : 'transparent' }}>
                   <input
                     type="radio"
                     name="exportMode"
@@ -285,7 +285,7 @@ export default function Dashboard() {
                   </div>
                 </label>
 
-                <label className="check" style={{ padding: 12, border: '1px solid #2a2f3d', borderRadius: 8, cursor: 'pointer' }}>
+                <label className="check" style={{ padding: 12, border: '1px solid #2a2f3d', borderRadius: 6, cursor: 'pointer', transition: 'all 0.2s ease', borderColor: exportMode === 'previous' ? 'var(--ac)' : '#2a2f3d', background: exportMode === 'previous' ? 'rgba(79, 140, 255, 0.1)' : 'transparent' }}>
                   <input
                     type="radio"
                     name="exportMode"
@@ -301,7 +301,7 @@ export default function Dashboard() {
                   </div>
                 </label>
 
-                <label className="check" style={{ padding: 12, border: '1px solid #2a2f3d', borderRadius: 8, cursor: 'pointer' }}>
+                <label className="check" style={{ padding: 12, border: '1px solid #2a2f3d', borderRadius: 6, cursor: 'pointer', transition: 'all 0.2s ease', borderColor: exportMode === 'all' ? 'var(--ac)' : '#2a2f3d', background: exportMode === 'all' ? 'rgba(79, 140, 255, 0.1)' : 'transparent' }}>
                   <input
                     type="radio"
                     name="exportMode"
