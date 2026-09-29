@@ -1,0 +1,49 @@
+:root { --bg:#0f1117; --card:#181b24; --card2:#1e2230; --line:#2a2f3d; --tx:#e6e8ee; --mut:#8b92a5; --ac:#4f8cff; --ok:#3ecf8e; --bad:#ff5d6c; --warn:#f5b84b; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--tx); font: 14px/1.45 system-ui, "Segoe UI", Roboto, sans-serif; }
+a { color: var(--ac); text-decoration: none; } a:hover { text-decoration: underline; }
+.wrap { max-width: 1400px; margin: 0 auto; padding: 22px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+h1 { font-size: 20px; margin: 0; } .sub { color: var(--mut); font-size: 13px; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+.stat { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+.stat b { display: block; font-size: 24px; } .stat span { color: var(--mut); font-size: 12px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.chip { background: var(--card); border: 1px solid var(--line); color: var(--tx); border-radius: 999px; padding: 4px 11px; font-size: 12px; cursor: pointer; }
+.chip:hover, .chip.on { border-color: var(--ac); color: var(--ac); }
+.chip i { color: var(--mut); font-style: normal; margin-left: 4px; }
+
+.filters { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-bottom: 12px; }
+.filters label { display: block; font-size: 11px; color: var(--mut); margin-bottom: 3px; }
+input[type=text], input[type=number], select { background: #0f1117; color: var(--tx); border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; font: inherit; }
+.grow { flex: 1; min-width: 200px; } .grow input { width: 100%; }
+.check { display: flex; align-items: center; gap: 6px; padding-bottom: 7px; font-size: 13px; }
+button, .btn { background: var(--card2); color: var(--tx); border: 1px solid var(--line); border-radius: 8px; padding: 7px 13px; font: inherit; cursor: pointer; display: inline-block; }
+button:hover, .btn:hover { border-color: var(--ac); text-decoration: none; }
+button:disabled { opacity: .4; cursor: not-allowed; }
+.btn.p { background: var(--ac); border-color: var(--ac); color: #fff; }
+.btn.d { color: var(--bad); }
+
+.err { background: #3a1820; border: 1px solid var(--bad); color: #ffb3bb; border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; }
+.tablewrap { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 900px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; color: var(--mut); font-weight: 600; white-space: nowrap; position: sticky; top: 0; background: var(--card); cursor: pointer; user-select: none; }
+th.ns { cursor: default; }
+tbody tr { cursor: pointer; } tbody tr:hover { background: var(--card2); }
+td small { color: var(--mut); display: block; }
+.rate { color: var(--warn); font-weight: 600; }
+.mut { color: var(--mut); }
+.empty { padding: 40px; text-align: center; color: var(--mut); }
+.pager { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 2px; flex-wrap: wrap; }
+
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 10; }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(480px, 100%); background: var(--card); border-left: 1px solid var(--line); z-index: 11; overflow: auto; padding: 20px; }
+.drawer h2 { margin: 0 0 4px; font-size: 18px; }
+.kv { margin: 14px 0; } .kv label { display: block; font-size: 11px; color: var(--mut); text-transform: uppercase; letter-spacing: .04em; }
+.kv div { word-break: break-word; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+@media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
