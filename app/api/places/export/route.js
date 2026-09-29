@@ -7,7 +7,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const COLS = ['name', 'category', 'rating', 'reviews', 'address', 'phone', 'website', 'email', 'emails',
-  'plusCode', 'hours', 'lat', 'lng', 'placeId', 'query', 'searchLocation', 'url', 'scrapedAt', 'createdAt'];
+  'plusCode', 'hours', 'lat', 'lng', 'placeId', 'query', 'searchLocation', 'url', 'scrapedAt', 'createdAt', 'status'];
 
 const cell = (v) => {
   if (Array.isArray(v)) v = v.join('; ');

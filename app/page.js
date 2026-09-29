@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-const EMPTY = { q: '', category: '', city: '', search: '', hasEmail: false, hasPhone: false, hasWebsite: false, minRating: '', scrapedDate: '' };
+const EMPTY = { q: '', category: '', city: '', search: '', hasEmail: false, hasPhone: false, hasWebsite: false, minRating: '', scrapedDate: '', status: '' };
 
 const host = (u) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; } };
 const fmt = (n) => (n ?? 0).toLocaleString();
@@ -80,6 +80,16 @@ export default function Dashboard() {
     else alert('Delete failed');
   };
 
+  const toggleStatus = async (p) => {
+    const newStatus = p.status === 'done' ? 'pending' : 'done';
+    const r = await fetch('/api/places/' + p._id, { method: 'PATCH', body: JSON.stringify({ status: newStatus }), headers: { 'Content-Type': 'application/json' } });
+    if (r.ok) {
+      setSelected({ ...p, status: newStatus });
+      load(true);
+    }
+    else alert('Status update failed');
+  };
+
   const exportUrl = '/api/places/export?' + filterQs.toString() + '&sort=' + sort + '&order=' + order + '&exportMode=' + exportMode;
   const from = data.total ? (data.page - 1) * data.limit + 1 : 0;
   const to = Math.min(data.total, data.page * data.limit);
@@ -137,6 +147,13 @@ export default function Dashboard() {
         <div><label>Found by search</label><input type="text" value={filters.search} onChange={(e) => setF('search', e.target.value)} placeholder="hospital | California" /></div>
         <div><label>Scraped date</label><input type="date" value={filters.scrapedDate} onChange={(e) => setF('scrapedDate', e.target.value)} /></div>
         <div><label>Min rating</label><input type="number" step="0.1" min="0" max="5" style={{ width: 80 }} value={filters.minRating} onChange={(e) => setF('minRating', e.target.value)} /></div>
+        <div><label>Status</label>
+          <select value={filters.status} onChange={(e) => setF('status', e.target.value)} style={{ width: 120 }}>
+            <option value="">All</option>
+            <option value="pending">Pending</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
         <label className="check"><input type="checkbox" checked={filters.hasEmail} onChange={(e) => setF('hasEmail', e.target.checked)} /> Has email</label>
         <label className="check"><input type="checkbox" checked={filters.hasPhone} onChange={(e) => setF('hasPhone', e.target.checked)} /> Has phone</label>
         <label className="check"><input type="checkbox" checked={filters.hasWebsite} onChange={(e) => setF('hasWebsite', e.target.checked)} /> Has website</label>
@@ -158,6 +175,7 @@ export default function Dashboard() {
             <tr>
               <th onClick={() => toggleSort('name')}>Name{arrow('name')}</th>
               <th onClick={() => toggleSort('rating')}>Rating{arrow('rating')}</th>
+              <th className="ns">Status</th>
               <th className="ns">Phone</th>
               <th className="ns">Email</th>
               <th className="ns">Website</th>
@@ -171,6 +189,7 @@ export default function Dashboard() {
               <tr key={p._id} onClick={() => setSelected(p)}>
                 <td><b>{p.name}</b><small>{p.category || '—'}</small></td>
                 <td>{p.rating != null ? <><span className="rate">★ {p.rating}</span><small>{fmt(p.reviews)} reviews</small></> : <span className="mut">—</span>}</td>
+                <td><span className={p.status === 'done' ? 'done' : 'pending'}>{p.status || 'pending'}</span></td>
                 <td>{p.phone || <span className="mut">—</span>}</td>
                 <td>{p.email || <span className="mut">—</span>}</td>
                 <td onClick={(e) => e.stopPropagation()}>{p.website ? <a href={p.website} target="_blank" rel="noreferrer">{host(p.website)}</a> : <span className="mut">—</span>}</td>
@@ -228,6 +247,9 @@ export default function Dashboard() {
               {selected.url && <a className="btn p" href={selected.url} target="_blank" rel="noreferrer">Open in Google Maps</a>}
               {selected.phone && <a className="btn" href={'tel:' + selected.phone.replace(/[^\d+]/g, '')}>Call</a>}
               {selected.email && <a className="btn" href={'mailto:' + selected.email}>Email</a>}
+              <button className="btn" onClick={() => toggleStatus(selected)}>
+                {selected.status === 'done' ? 'Mark as Pending' : 'Mark as Done'}
+              </button>
               <button className="d btn" onClick={() => remove(selected)}>Delete</button>
             </div>
           </aside>

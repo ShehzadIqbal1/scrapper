@@ -37,6 +37,8 @@ tbody tr { cursor: pointer; } tbody tr:hover { background: var(--card2); }
 td small { color: var(--mut); display: block; }
 .rate { color: var(--warn); font-weight: 600; }
 .mut { color: var(--mut); }
+.done { color: var(--ok); font-weight: 600; }
+.pending { color: var(--warn); font-weight: 600; }
 .empty { padding: 40px; text-align: center; color: var(--mut); }
 .pager { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 2px; flex-wrap: wrap; }
 

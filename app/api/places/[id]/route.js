@@ -30,3 +30,16 @@ export async function DELETE(req, { params }) {
     return NextResponse.json({ ok: false, error: e.message }, { status: 500 });
   }
 }
+
+export async function PATCH(req, { params }) {
+  try {
+    if (bad(params.id)) return NextResponse.json({ ok: false, error: 'Invalid id' }, { status: 400 });
+    await connectDB();
+    const body = await req.json();
+    const p = await Place.findByIdAndUpdate(params.id, { $set: body }, { new: true });
+    if (!p) return NextResponse.json({ ok: false, error: 'Not found' }, { status: 404 });
+    return NextResponse.json({ ok: true, item: JSON.parse(JSON.stringify(p)) });
+  } catch (e) {
+    return NextResponse.json({ ok: false, error: e.message }, { status: 500 });
+  }
+}
