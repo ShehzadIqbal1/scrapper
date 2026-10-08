@@ -36,7 +36,7 @@ const placeSchema = new mongoose.Schema(
 
     scrapedAt: Date,
     exportedAt: Date, // Track when this record was last exported
-    status: { type: String, enum: ['pending', 'done'], default: 'pending' } // Lead status
+    status: { type: String, enum: ['pending', 'reached', 'convince', 'signed', 'dead', 'done'], default: 'pending' } // Lead status: pending | reached | convince | signed | dead
   },
   { timestamps: true, versionKey: false }
 );

@@ -52,7 +52,7 @@ export async function POST(req) {
 
   const ops = [];
   for (const { key, set, emails, searchTag } of byKey.values()) {
-    const update = { $set: set };
+    const update = { $set: set, $setOnInsert: { status: 'pending' } };
     const addToSet = {};
     if (emails.length) addToSet.emails = { $each: emails };
     if (searchTag) addToSet.searches = searchTag;

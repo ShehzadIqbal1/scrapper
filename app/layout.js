@@ -10,8 +10,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} dark`}>
-      <body className="font-sans bg-[#070a12] text-[#f1f5f9] antialiased selection:bg-indigo-500/30 selection:text-indigo-200">
+    <html lang="en" className={`${inter.variable} dark`} suppressHydrationWarning>
+      <body className="font-sans antialiased min-h-screen">
         {children}
       </body>
     </html>

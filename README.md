@@ -11,8 +11,8 @@ npm run dev                     # http://localhost:3000
 Production: `npm run build && npm start`
 
 ## Connect the extension
-Dashboard field **API endpoint**: `http://localhost:3000/api/places/bulk`
-(tick "Auto-send to API"). If you set `API_KEY` in `.env.local`, paste the same value in the extension's "API key" field.
+Dashboard field **API endpoint**: `https://scrapper-puce-one.vercel.app/api/places/bulk` (or `http://localhost:3000/api/places/bulk` for local development).
+The extension now defaults to `https://scrapper-puce-one.vercel.app/api/places/bulk` with "Auto-send to API" checked. If you set `API_KEY` in `.env.local`, paste the same value in the extension's "API key" field.
 
 ## API
 | Method | Path | Purpose |

@@ -4,108 +4,200 @@
 
 @layer base {
   * {
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(148, 163, 184, 0.2);
+  }
+
+  html.dark body {
+    background-color: #0b0f19;
+    color: #f8fafc;
+  }
+
+  html:not(.dark) body {
+    background-color: #f1f5f9;
+    color: #0f172a;
   }
 
   body {
-    background-color: #070a12;
-    color: #f1f5f9;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     min-height: 100vh;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
-  /* Custom sleek scrollbar */
+  /* Custom visible sleek scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
   }
+  .dark ::-webkit-scrollbar-track {
+    background: #0b0f19;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 9999px;
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+  }
+
   ::-webkit-scrollbar-track {
-    background: #090d16;
+    background: #e2e8f0;
   }
   ::-webkit-scrollbar-thumb {
-    background: #1e293b;
+    background: #94a3b8;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #334155;
+    background: #64748b;
   }
 }
 
 @layer components {
-  /* Glass card surfaces */
+  /* Prominent elevated cards with high-contrast borders */
   .glass-card {
-    @apply bg-[#0c1220]/80 backdrop-blur-xl border border-white/[0.08] shadow-lg shadow-black/20 rounded-xl transition-all duration-200;
+    @apply bg-white dark:bg-[#141d30] border border-slate-200 dark:border-slate-700/80 shadow-lg dark:shadow-xl dark:shadow-black/40 rounded-xl transition-all duration-200;
   }
 
+  /* Vibrant stat cards */
   .stat-card-modern {
-    @apply relative overflow-hidden bg-gradient-to-b from-[#111728]/90 to-[#0c111e]/90 backdrop-blur-md border border-white/[0.08] rounded-xl p-4 sm:p-5 transition-all duration-200 hover:border-indigo-500/30 hover:shadow-glow-sm hover:-translate-y-0.5;
+    @apply relative overflow-hidden bg-white dark:bg-gradient-to-br dark:from-[#17223b] dark:to-[#12192c] border border-slate-200 dark:border-slate-700/90 rounded-xl p-4 sm:p-5 transition-all duration-200 hover:border-indigo-400 dark:hover:border-indigo-500/50 hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-indigo-500/10 hover:-translate-y-0.5;
   }
 
-  /* Form inputs */
+  /* Form inputs - clean padding that never overrides pl-9 utility */
   .input-modern {
-    @apply bg-[#080d1a] text-slate-100 placeholder-slate-500 border border-white/[0.09] rounded-lg px-3 py-2 text-sm transition-all duration-150 focus:outline-none focus:border-indigo-500/80 focus:ring-2 focus:ring-indigo-500/20 hover:border-white/[0.16];
+    @apply bg-white dark:bg-[#0f172a] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-400 border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150 focus:outline-none focus:border-indigo-600 dark:focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 dark:focus:ring-indigo-500/30 hover:border-slate-400 dark:hover:border-slate-500;
+  }
+
+  /* Select dropdowns with dark mode support */
+  select {
+    @apply bg-white dark:bg-[#0f172a] text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600;
+  }
+
+  select option {
+    @apply bg-white dark:bg-[#0f172a] text-slate-900 dark:text-white;
+  }
+
+  /* Dark mode for select dropdowns in browsers that support it */
+  @media (prefers-color-scheme: dark) {
+    select option {
+      background-color: #0f172a;
+      color: #ffffff;
+    }
+  }
+
+  html.dark select option {
+    background-color: #0f172a;
+    color: #ffffff;
+  }
+
+  /* Icon color classes for dark mode support */
+  .icon-dark-aware {
+    @apply text-slate-600 dark:text-slate-300;
   }
 
   /* Buttons */
   .btn-gradient {
-    @apply relative inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-indigo-500 via-indigo-600 to-blue-600 rounded-lg shadow-md shadow-indigo-500/25 transition-all duration-200 hover:shadow-indigo-500/40 hover:brightness-110 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+    @apply relative inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 via-indigo-600 to-blue-600 rounded-lg shadow-md shadow-indigo-500/30 transition-all duration-200 hover:shadow-indigo-500/50 hover:brightness-110 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 px-3.5 py-2 text-sm font-medium text-slate-200 bg-[#101726]/80 hover:bg-[#151f33] border border-white/[0.09] hover:border-white/[0.18] rounded-lg transition-all duration-150 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 px-3.5 py-2 text-sm font-semibold text-slate-700 dark:text-slate-100 bg-white dark:bg-[#1a253e] hover:bg-slate-50 dark:hover:bg-[#233254] border border-slate-300 dark:border-slate-600 hover:border-slate-400 rounded-lg transition-all duration-150 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none shadow-sm;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.06] rounded-md transition-colors;
+    @apply inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800/60 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 rounded-md transition-colors;
   }
 
-  /* Badges */
+  /* Badges - vivid and distinct */
   .badge {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full;
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold rounded-full;
   }
 
   .badge-success {
-    @apply bg-emerald-500/10 text-emerald-400 border border-emerald-500/25;
+    @apply bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/50 shadow-sm dark:shadow-emerald-950/40;
   }
 
   .badge-warning {
-    @apply bg-amber-500/10 text-amber-300 border border-amber-500/25;
+    @apply bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-500/50 shadow-sm dark:shadow-amber-950/40;
   }
 
   .badge-indigo {
-    @apply bg-indigo-500/10 text-indigo-300 border border-indigo-500/25;
+    @apply bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-300 dark:border-indigo-500/50 shadow-sm dark:shadow-indigo-950/40;
   }
 
   /* Table styles */
   .table-row-modern {
-    @apply border-b border-white/[0.05] transition-colors duration-150 hover:bg-white/[0.03] cursor-pointer;
+    @apply border-b border-slate-200 dark:border-slate-700/60 transition-colors duration-150 hover:bg-indigo-50/40 dark:hover:bg-[#1a2542] cursor-pointer;
   }
 
   /* Checkbox & radio pills */
   .toggle-chip {
-    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-all duration-150 cursor-pointer select-none;
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border transition-all duration-150 cursor-pointer select-none;
   }
 
   .toggle-chip-active {
-    @apply bg-indigo-500/15 border-indigo-500/50 text-indigo-300 shadow-sm shadow-indigo-500/20;
+    @apply bg-indigo-600 border-indigo-500 text-white shadow-md shadow-indigo-500/30;
   }
 
   .toggle-chip-inactive {
-    @apply bg-[#0a0f1d] border-white/[0.08] text-slate-400 hover:text-slate-200 hover:border-white/[0.15];
+    @apply bg-white dark:bg-[#131b2e] border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-slate-500 hover:bg-slate-50 dark:hover:bg-[#1a253e];
+  }
+
+  /* Status select - themed per status, dark-mode safe */
+  .status-select {
+    @apply text-xs font-bold px-2 py-1 rounded-full border cursor-pointer appearance-none focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-indigo-500 transition-all duration-150;
+  }
+
+  .status-select-pending {
+    @apply bg-amber-50 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border-amber-400 dark:border-amber-500/60;
+  }
+
+  .status-select-reached {
+    @apply bg-blue-50 dark:bg-blue-500/20 text-blue-800 dark:text-blue-300 border-blue-400 dark:border-blue-500/60;
+  }
+
+  .status-select-convince {
+    @apply bg-purple-50 dark:bg-purple-500/20 text-purple-800 dark:text-purple-300 border-purple-400 dark:border-purple-500/60;
+  }
+
+  .status-select-signed {
+    @apply bg-emerald-50 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border-emerald-400 dark:border-emerald-500/60;
+  }
+
+  .status-select-dead {
+    @apply bg-rose-50 dark:bg-rose-500/20 text-rose-800 dark:text-rose-300 border-rose-400 dark:border-rose-500/60;
+  }
+
+  /* Detail drawer status select - larger variant */
+  .status-select-lg {
+    @apply text-sm font-bold px-3 py-2 rounded-xl border-2 cursor-pointer appearance-none focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-indigo-500 transition-all duration-150 w-full;
   }
 }
 
 /* Glow effects */
 .ambient-glow {
-  background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 60%);
+  background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.18) 0%, transparent 60%);
 }
 
 @keyframes pulse-dot {
   0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.5; }
+  50% { transform: scale(1.4); opacity: 0.6; }
 }
 
 .pulse-animation {
   animation: pulse-dot 2s infinite ease-in-out;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
