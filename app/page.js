@@ -199,11 +199,11 @@ export default function Dashboard() {
   const STATUSES = ['pending', 'reached', 'convince', 'signed', 'dead'];
 
   const STATUS_META = {
-    pending:  { label: 'Pending',  dot: 'bg-amber-400',   badge: 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/40',   selectClass: 'status-select status-select-pending' },
-    reached:  { label: 'Reached',  dot: 'bg-blue-400',    badge: 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/40',       selectClass: 'status-select status-select-reached' },
-    convince: { label: 'Convince', dot: 'bg-purple-400',  badge: 'bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/40', selectClass: 'status-select status-select-convince' },
-    signed:   { label: 'Signed',   dot: 'bg-emerald-400', badge: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/40', selectClass: 'status-select status-select-signed' },
-    dead:     { label: 'Dead',     dot: 'bg-rose-400',    badge: 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/40',       selectClass: 'status-select status-select-dead' }
+    pending: { label: 'Pending', dot: 'bg-amber-400', badge: 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/40', selectClass: 'status-select status-select-pending' },
+    reached: { label: 'Reached', dot: 'bg-blue-400', badge: 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/40', selectClass: 'status-select status-select-reached' },
+    convince: { label: 'Convince', dot: 'bg-purple-400', badge: 'bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/40', selectClass: 'status-select status-select-convince' },
+    signed: { label: 'Signed', dot: 'bg-emerald-400', badge: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/40', selectClass: 'status-select status-select-signed' },
+    dead: { label: 'Dead', dot: 'bg-rose-400', badge: 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/40', selectClass: 'status-select status-select-dead' }
   };
 
   const setStatus = async (p, newStatus, e) => {
@@ -333,16 +333,14 @@ export default function Dashboard() {
             {/* Live Refresh Switch */}
             <button
               onClick={() => setLive(!live)}
-              className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold border transition-all duration-150 ${
-                live
-                  ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-700 dark:text-emerald-300 shadow-sm'
-                  : 'bg-white dark:bg-[#162238] border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:border-slate-400'
-              }`}
+              className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold border transition-all duration-150 ${live
+                ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-700 dark:text-emerald-300 shadow-sm'
+                : 'bg-white dark:bg-[#162238] border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:border-slate-400'
+                }`}
             >
               <span
-                className={`w-2 h-2 rounded-full ${
-                  live ? 'bg-emerald-400 pulse-animation' : 'bg-slate-400'
-                }`}
+                className={`w-2 h-2 rounded-full ${live ? 'bg-emerald-400 pulse-animation' : 'bg-slate-400'
+                  }`}
               />
               <span>Live Sync (5s)</span>
             </button>
@@ -475,28 +473,26 @@ export default function Dashboard() {
             </span>
             {[
               { key: '', label: 'All', count: stats.statusCounts.all, dot: 'bg-slate-400', active: 'bg-slate-700 text-white border-slate-600' },
-              { key: 'pending',  label: 'Pending',  count: stats.statusCounts.pending,  dot: 'bg-amber-400',   active: 'bg-amber-500 text-white border-amber-600' },
-              { key: 'reached',  label: 'Reached',  count: stats.statusCounts.reached,  dot: 'bg-blue-400',    active: 'bg-blue-500 text-white border-blue-600' },
-              { key: 'convince', label: 'Convince', count: stats.statusCounts.convince, dot: 'bg-purple-400',  active: 'bg-purple-500 text-white border-purple-600' },
-              { key: 'signed',   label: 'Signed',   count: stats.statusCounts.signed,   dot: 'bg-emerald-400', active: 'bg-emerald-500 text-white border-emerald-600' },
-              { key: 'dead',     label: 'Dead',     count: stats.statusCounts.dead,     dot: 'bg-rose-400',    active: 'bg-rose-500 text-white border-rose-600' }
+              { key: 'pending', label: 'Pending', count: stats.statusCounts.pending, dot: 'bg-amber-400', active: 'bg-amber-500 text-white border-amber-600' },
+              { key: 'reached', label: 'Reached', count: stats.statusCounts.reached, dot: 'bg-blue-400', active: 'bg-blue-500 text-white border-blue-600' },
+              { key: 'convince', label: 'Convince', count: stats.statusCounts.convince, dot: 'bg-purple-400', active: 'bg-purple-500 text-white border-purple-600' },
+              { key: 'signed', label: 'Signed', count: stats.statusCounts.signed, dot: 'bg-emerald-400', active: 'bg-emerald-500 text-white border-emerald-600' },
+              { key: 'dead', label: 'Dead', count: stats.statusCounts.dead, dot: 'bg-rose-400', active: 'bg-rose-500 text-white border-rose-600' }
             ].map((s) => {
               const isActive = filters.status === s.key;
               return (
                 <button
                   key={s.key}
                   onClick={() => { setF('status', isActive ? '' : s.key); }}
-                  className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all duration-150 border ${
-                    isActive
-                      ? s.active + ' shadow-md'
-                      : 'bg-white dark:bg-[#162238] text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500'
-                  }`}
+                  className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all duration-150 border ${isActive
+                    ? s.active + ' shadow-md'
+                    : 'bg-white dark:bg-[#162238] text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500'
+                    }`}
                 >
                   <span className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
                   {s.label}
-                  <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold ${
-                    isActive ? 'bg-white/25 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200'
-                  }`}>{s.count}</span>
+                  <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold ${isActive ? 'bg-white/25 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200'
+                    }`}>{s.count}</span>
                 </button>
               );
             })}
@@ -516,19 +512,17 @@ export default function Dashboard() {
                 <button
                   key={c.category}
                   onClick={() => setF('category', isSelected ? '' : c.category)}
-                  className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all duration-150 border ${
-                    isSelected
-                      ? 'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-500/30'
-                      : 'bg-white dark:bg-[#162238] text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-white'
-                  }`}
+                  className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all duration-150 border ${isSelected
+                    ? 'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-500/30'
+                    : 'bg-white dark:bg-[#162238] text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-white'
+                    }`}
                 >
                   <span>{c.category}</span>
                   <span
-                    className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${
-                      isSelected
-                        ? 'bg-indigo-900 text-white'
-                        : 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200'
-                    }`}
+                    className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${isSelected
+                      ? 'bg-indigo-900 text-white'
+                      : 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200'
+                      }`}
                   >
                     {c.count}
                   </span>
@@ -591,9 +585,8 @@ export default function Dashboard() {
               <button
                 type="button"
                 onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-                className={`btn-outline w-full text-xs py-2 justify-between ${
-                  showAdvancedFilters || activeFilterCount > 0 ? 'border-indigo-500 text-indigo-600 dark:text-indigo-300 font-bold' : ''
-                }`}
+                className={`btn-outline w-full text-xs py-2 justify-between ${showAdvancedFilters || activeFilterCount > 0 ? 'border-indigo-500 text-indigo-600 dark:text-indigo-300 font-bold' : ''
+                  }`}
               >
                 <span className="flex items-center gap-1.5 font-bold">
                   <SlidersHorizontal className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300" />
@@ -605,9 +598,8 @@ export default function Dashboard() {
                   )}
                 </span>
                 <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform duration-200 text-slate-600 dark:text-slate-300 ${
-                    showAdvancedFilters ? 'rotate-180' : ''
-                  }`}
+                  className={`w-3.5 h-3.5 transition-transform duration-200 text-slate-600 dark:text-slate-300 ${showAdvancedFilters ? 'rotate-180' : ''
+                    }`}
                 />
               </button>
             </div>
@@ -627,9 +619,8 @@ export default function Dashboard() {
 
           {/* Collapsible Advanced Filters */}
           <div
-            className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 pt-2 border-t border-slate-200 dark:border-slate-700 ${
-              showAdvancedFilters ? 'block' : 'hidden md:grid'
-            }`}
+            className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 pt-2 border-t border-slate-200 dark:border-slate-700 ${showAdvancedFilters ? 'block' : 'hidden md:grid'
+              }`}
           >
             {/* State Dropdown */}
             <div>
@@ -663,7 +654,7 @@ export default function Dashboard() {
                 <option value="">All Statuses</option>
                 <option value="pending">Pending</option>
                 <option value="reached">Reached</option>
-                <option value="convince">Convince</option>
+                <option value="convince">In Conversation</option>
                 <option value="signed">Signed</option>
                 <option value="dead">Dead</option>
               </select>
@@ -695,9 +686,8 @@ export default function Dashboard() {
               <button
                 type="button"
                 onClick={() => setF('hasEmail', !filters.hasEmail)}
-                className={`toggle-chip ${
-                  filters.hasEmail ? 'toggle-chip-active' : 'toggle-chip-inactive'
-                }`}
+                className={`toggle-chip ${filters.hasEmail ? 'toggle-chip-active' : 'toggle-chip-inactive'
+                  }`}
               >
                 <Mail className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300" />
                 <span>Has Email</span>
@@ -706,9 +696,8 @@ export default function Dashboard() {
               <button
                 type="button"
                 onClick={() => setF('hasPhone', !filters.hasPhone)}
-                className={`toggle-chip ${
-                  filters.hasPhone ? 'toggle-chip-active' : 'toggle-chip-inactive'
-                }`}
+                className={`toggle-chip ${filters.hasPhone ? 'toggle-chip-active' : 'toggle-chip-inactive'
+                  }`}
               >
                 <Phone className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300" />
                 <span>Has Phone</span>
@@ -717,9 +706,8 @@ export default function Dashboard() {
               <button
                 type="button"
                 onClick={() => setF('hasWebsite', !filters.hasWebsite)}
-                className={`toggle-chip ${
-                  filters.hasWebsite ? 'toggle-chip-active' : 'toggle-chip-inactive'
-                }`}
+                className={`toggle-chip ${filters.hasWebsite ? 'toggle-chip-active' : 'toggle-chip-inactive'
+                  }`}
               >
                 <Globe className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300" />
                 <span>Has Website</span>
@@ -893,9 +881,9 @@ export default function Dashboard() {
                         >
                           <option value="pending">Pending</option>
                           <option value="reached">Reached</option>
-                          <option value="convince">Convince</option>
+                          <option value="convince">In Conversation</option>
                           <option value="signed">Signed</option>
-          <option value="dead">Dead</option>
+                          <option value="dead">Dead</option>
                         </select>
                       </td>
                     </tr>
@@ -1208,7 +1196,7 @@ export default function Dashboard() {
                   >
                     <option value="pending">Pending</option>
                     <option value="reached">Reached</option>
-                    <option value="convince">Convince</option>
+                    <option value="convince">In Conversation</option>
                     <option value="signed">Signed</option>
                     <option value="dead">Dead</option>
                   </select>
@@ -1230,11 +1218,10 @@ export default function Dashboard() {
       {toast && (
         <div className="fixed top-6 right-6 z-50 animate-fadeIn">
           <div
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg border ${
-              toast.type === 'success'
-                ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-700 dark:text-emerald-300'
-                : 'bg-rose-500/15 border-rose-500/40 text-rose-700 dark:text-rose-300'
-            }`}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg border ${toast.type === 'success'
+              ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-700 dark:text-emerald-300'
+              : 'bg-rose-500/15 border-rose-500/40 text-rose-700 dark:text-rose-300'
+              }`}
           >
             {toast.type === 'success' ? (
               <CircleCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
@@ -1276,11 +1263,10 @@ export default function Dashboard() {
               <div className="py-4 space-y-2.5">
                 {/* Radio Option 1: New only */}
                 <label
-                  className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
-                    exportMode === 'new'
-                      ? 'bg-indigo-500/15 border-indigo-500 shadow-sm'
-                      : 'bg-slate-50 dark:bg-[#1a253e] border-slate-300 dark:border-slate-700 hover:border-slate-400'
-                  }`}
+                  className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer ${exportMode === 'new'
+                    ? 'bg-indigo-500/15 border-indigo-500 shadow-sm'
+                    : 'bg-slate-50 dark:bg-[#1a253e] border-slate-300 dark:border-slate-700 hover:border-slate-400'
+                    }`}
                 >
                   <input
                     type="radio"
@@ -1300,11 +1286,10 @@ export default function Dashboard() {
 
                 {/* Radio Option 2: Previously exported */}
                 <label
-                  className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
-                    exportMode === 'previous'
-                      ? 'bg-indigo-500/15 border-indigo-500 shadow-sm'
-                      : 'bg-slate-50 dark:bg-[#1a253e] border-slate-300 dark:border-slate-700 hover:border-slate-400'
-                  }`}
+                  className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer ${exportMode === 'previous'
+                    ? 'bg-indigo-500/15 border-indigo-500 shadow-sm'
+                    : 'bg-slate-50 dark:bg-[#1a253e] border-slate-300 dark:border-slate-700 hover:border-slate-400'
+                    }`}
                 >
                   <input
                     type="radio"
@@ -1324,11 +1309,10 @@ export default function Dashboard() {
 
                 {/* Radio Option 3: All data */}
                 <label
-                  className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
-                    exportMode === 'all'
-                      ? 'bg-indigo-500/15 border-indigo-500 shadow-sm'
-                      : 'bg-slate-50 dark:bg-[#1a253e] border-slate-300 dark:border-slate-700 hover:border-slate-400'
-                  }`}
+                  className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer ${exportMode === 'all'
+                    ? 'bg-indigo-500/15 border-indigo-500 shadow-sm'
+                    : 'bg-slate-50 dark:bg-[#1a253e] border-slate-300 dark:border-slate-700 hover:border-slate-400'
+                    }`}
                 >
                   <input
                     type="radio"
@@ -1365,8 +1349,8 @@ export default function Dashboard() {
                     exportMode === 'new'
                       ? stats?.exportStats?.new || 0
                       : exportMode === 'previous'
-                      ? stats?.exportStats?.previous || 0
-                      : stats?.exportStats?.all || 0
+                        ? stats?.exportStats?.previous || 0
+                        : stats?.exportStats?.all || 0
                   )}
                   )
                 </button>
